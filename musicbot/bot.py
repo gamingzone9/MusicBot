@@ -1070,9 +1070,9 @@ class MusicBot(discord.Client):
             log.info("Options:")
 
             log.info("  Command prefix: " + self.config.command_prefix)
-            log.info("  Default volume: {}%".format(int(self.config.default_volume * 100)))
+            log.info("  Default volume: {}%".format(int(self.config.default_volume * 200)))
             log.info("  Skip threshold: {} votes or {}%".format(
-                self.config.skips_required, fixg(self.config.skip_ratio_required * 100)))
+                self.config.skips_required, fixg(self.config.skip_ratio_required * 200)))
             log.info("  Now Playing @mentions: " + ['Disabled', 'Enabled'][self.config.now_playing_mentions])
             log.info("  Auto-Summon: " + ['Disabled', 'Enabled'][self.config.auto_summon])
             log.info("  Auto-Playlist: " + ['Disabled', 'Enabled'][self.config.auto_playlist] + " (order: " + ['sequential', 'random'][self.config.auto_playlist_random] + ")")
@@ -1113,8 +1113,8 @@ class MusicBot(discord.Client):
         """Provides a basic template for embeds"""
         e = discord.Embed()
         e.colour = 7506394
-        e.set_footer(text='Just-Some-Bots/MusicBot ({})'.format(BOTVERSION), icon_url='https://i.imgur.com/gFHBoZA.png')
-        e.set_author(name=self.user.name, url='https://github.com/Just-Some-Bots/MusicBot', icon_url=self.user.avatar_url)
+        e.set_footer(text='Made By DJ Deep', icon_url='https://media.discordapp.net/attachments/722043839547965493/755452005266489374/137293.jpg')
+        e.set_author(name=self.user.name, url='', icon_url=self.user.avatar_url)
         return e
 
     async def cmd_resetplaylist(self, player, channel):
@@ -1164,8 +1164,7 @@ class MusicBot(discord.Client):
             await self.gen_cmd_list(message)
 
         desc = '```\n' + ', '.join(self.commands) + '\n```\n' + self.str.get(
-            'cmd-help-response', 'For information about a particular command, run `{}help [command]`\n'
-                                 'For further help, see https://just-some-bots.github.io/MusicBot/').format(prefix)
+            'cmd-help-response', 'For information about a particular command, run `{}help [command]').format(prefix)
         if not self.is_all:
             desc += self.str.get('cmd-help-all', '\nOnly showing commands you can use, for a list of all commands, run `{}help all`').format(prefix)
 
@@ -2139,7 +2138,7 @@ class MusicBot(discord.Client):
         """
 
         if not new_volume:
-            return Response(self.str.get('cmd-volume-current', 'Current volume: `%s%%`') % int(player.volume * 100), reply=True, delete_after=20)
+            return Response(self.str.get('cmd-volume-current', 'Current volume: `%s%%`') % int(player.volume * 200), reply=True, delete_after=20)
 
         relative = False
         if new_volume[0] in '+-':
@@ -2154,12 +2153,12 @@ class MusicBot(discord.Client):
         vol_change = None
         if relative:
             vol_change = new_volume
-            new_volume += (player.volume * 100)
+            new_volume += (player.volume * 200)
 
-        old_volume = int(player.volume * 100)
+        old_volume = int(player.volume * 200)
 
-        if 0 < new_volume <= 100:
-            player.volume = new_volume / 100.0
+        if 0 < new_volume <= 200:
+            player.volume = new_volume / 200.0
 
             return Response(self.str.get('cmd-volume-reply', 'Updated volume from **%d** to **%d**') % (old_volume, new_volume), reply=True, delete_after=20)
 
@@ -2167,10 +2166,10 @@ class MusicBot(discord.Client):
             if relative:
                 raise exceptions.CommandError(
                     self.str.get('cmd-volume-unreasonable-relative', 'Unreasonable volume change provided: {}{:+} -> {}%.  Provide a change between {} and {:+}.').format(
-                        old_volume, vol_change, old_volume + vol_change, 1 - old_volume, 100 - old_volume), expire_in=20)
+                        old_volume, vol_change, old_volume + vol_change, 1 - old_volume, 200 - old_volume), expire_in=20)
             else:
                 raise exceptions.CommandError(
-                    self.str.get('cmd-volume-unreasonable-absolute', 'Unreasonable volume provided: {}%. Provide a value between 1 and 100.').format(new_volume), expire_in=20)
+                    self.str.get('cmd-volume-unreasonable-absolute', 'Unreasonable volume provided: {}%. Provide a value between 1 and 200.').format(new_volume), expire_in=20)
 
     @owner_only
     async def cmd_option(self, player, option, value):
@@ -2281,12 +2280,12 @@ class MusicBot(discord.Client):
         Usage:
             {command_prefix}clean [range]
 
-        Removes up to [range] messages the bot has posted in chat. Default: 50, Max: 1000
+        Removes up to [range] messages the bot has posted in chat. Default: 50, Max: 10000
         """
 
         try:
             float(search_range)  # lazy check
-            search_range = min(int(search_range), 1000)
+            search_range = min(int(search_range), 10000)
         except:
             return Response(self.str.get('cmd-clean-invalid', "Invalid parameter. Please provide a number of messages to search."), reply=True, delete_after=8)
 
