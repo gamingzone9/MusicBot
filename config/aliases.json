@@ -1,0 +1,13 @@
+{
+    "play": ["p"],
+    "skip": ["s"],
+    "queue": ["q"],
+    "resume": ["r"],
+    "skip f": ["fs"],
+    "pause": ["pa"],
+    "disconnect": ["dc"],
+    "summon": ["su"],
+    "volume": ["v"]
+
+
+}
